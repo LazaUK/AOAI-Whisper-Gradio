@@ -54,3 +54,5 @@ If successful, you should be able to access new Web app's interface at http://12
 ![screenshot_1_AOAI](images/demo_app_1.png)
 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
+
+![screenshot_1_AISpeech](images/demo_app_2.png)
