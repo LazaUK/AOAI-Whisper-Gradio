@@ -3,11 +3,11 @@ Whisper models allow you to transcribe and translate audio files (speech to text
 
 ## Table of contents:
 - [Option 1 - Access to Whisper models in offline mode](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main/README.md#option-1---access-to-whisper-models-in-offline-mode)
-- [Option 2 - Access to Whisper models via Azure OpenAI endpoint](https://github.com/LazaUK/IndustrySolutions-WindFarm#step-2---setup-azure-iot-hub)
+- [Option 2 - Access to Whisper models via Azure OpenAI endpoint](https://github.com/LazaUK/AOAI-Whisper-Gradio#option-2---access-to-whisper-models-via-azure-openai-endpoint)
 - [Option 2 - Access to Whisper models via Azure AI Speech endpoint](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main/README.md#option-2---access-to-whisper-models-via-azure-ai-speech-endpoint)
 
 ## Option 1 - Access to Whisper models in offline mode
 
 ## Option 2 - Access to Whisper models via Azure OpenAI endpoint
 
-## Option 2 - Access to Whisper models via Azure AI Speech endpoint
+## Option 3 - Access to Whisper models via Azure AI Speech endpoint
