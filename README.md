@@ -1,7 +1,7 @@
 # Jump-start Python templates to demo Whisper in the Gradio-powered Web apps
 Whisper models allow you to transcribe and translate audio files, using their speech-to-text capabilities.
 
-In this repo I'll demo how to utilise them offline or consume from Azure endpoints (either from [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) or [Azure AI Speech](https://learn.microsoft.com/en-GB/azure/ai-services/speech-service/overview) resources).
+In this repo I'll demo how to utilise Whisper offline or consume it through Azure endpoints (either from [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) or [Azure AI Speech](https://learn.microsoft.com/en-GB/azure/ai-services/speech-service/overview) resources).
 
 Each option from the table of contents below is wrapped into a functional Web interface, powered by [Gradio](https://www.gradio.app/) platform.
 
