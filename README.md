@@ -30,6 +30,6 @@ If successful, you should be able to access new Web app's interface at http://12
 ## Option 1 - Access to Whisper models via Azure OpenAI endpoint
 Whisper models are now available as a part of Azure OpenAI resource. To consume its API endpoint in your Gradio app, please follow these steps:
 1. Deploy Whisper in available Azure region.
-![screenshot_1_deploy](demo_app_1_deploy.png)
+![screenshot_1_deploy](images/demo_app_1_deploy.png)
 2. 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
