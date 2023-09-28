@@ -54,5 +54,7 @@ If successful, you should be able to access new Web app's interface at http://12
 ![screenshot_1_AOAI](images/demo_app_1.png)
 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
+Whisper models are also available through Azure AI Speech. Using batch API (similar to what is described [here](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/samples/batch/python/python-client)), can increase audio file size limit up to 1 Gb.
 
+> **Note:** This option is still "Work in Progress". Please, check the latest version of 2_Whisper_AzureAISpeech_endpoint.py file provided for updates.
 ![screenshot_1_AISpeech](images/demo_app_2.png)
