@@ -50,7 +50,7 @@ pip install --upgrade openai
 ```
 python 1_Whisper_AOAI_endpoint.py
 ```
-If successful, you should be able to access new Web app's interface at http://127.0.0.1:7860/ as shown below. You can now record your speech through the computer's microphone and transcribe it using Whisper model enabled through Azure OpenAI.
+If successful, you should be able to access new Web app's interface at http://127.0.0.1:7860/ as shown below. You can now record your speech through the computer's microphone and transcribe it using Whisper model enabled in Azure OpenAI.
 ![screenshot_1_AOAI](images/demo_app_1.png)
 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
