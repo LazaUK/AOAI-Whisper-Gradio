@@ -27,11 +27,22 @@ python 0_Whisper_Offline.py
 If successful, you should be able to access new Web app's interface at http://127.0.0.1:7860/ as shown below. You can now record your speech through the computer's microphone and transcribe it using one of selected Whisper models.
 ![screenshot_0_offline](images/demo_app_0.png)
 > **Note:** You may also require installation of [FFMpeg package](https://ffmpeg.org/) to make this solution work on your local computer.
+
 ## Option 1 - Access to Whisper models via Azure OpenAI endpoint
 Whisper models are now available as a part of Azure OpenAI resource. To consume its API endpoint in your Gradio app, please follow these steps:
 1. Deploy Whisper in available Azure OpenAI region.
 ![screenshot_1_deploy](images/demo_app_1_deploy.png)
 2. Copy API endpoint and key details.
 ![screenshot_1_access](images/demo_app_1_access.png)
+3. Create environment variables and assign to them copied API endpoint and key details from the previous step.
+![screenshot_1_environ](images/demo_app_1_environ.png)
+4. Install gradio Python package. This will allow you to define and instantiate a Web app, that will run locally as a Web service.
+```
+pip install --upgrade gradio
+```
+5. Install openai Python package. This is the client SDK that your Web app will use to interact with Azure OpenAI endpoint.
+```
+pip install --upgrade openai
+```
 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
