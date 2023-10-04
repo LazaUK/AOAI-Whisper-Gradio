@@ -1,9 +1,10 @@
 import gradio as gr
 import whisper
 
+paramfp16=False
 def transcribe(audio):
     model = whisper.load_model("base")
-    result = model.transcribe(audio)
+    result = model.transcribe(audio,fp16=paramfp16)
     print(result["text"])
     return result["text"]
 
