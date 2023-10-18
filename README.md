@@ -38,15 +38,17 @@ Whisper models are now available as a part of Azure OpenAI resource. To consume 
 ![screenshot_1_access](images/demo_app_1_access.png)
 3. Create environment variables and assign to them copied API endpoint and key details from the previous step.
 ![screenshot_1_environ](images/demo_app_1_environ.png)
-4. Install gradio Python package. This will allow you to define and instantiate a Web app, that will run locally as a Web service.
+4. Set AOAI_DEPLOYMENT_ID variable to the name of your Azure OpenAI Whisper deployment.
+![screenshot_1_variable](images/demo_app_1_variable.png)
+5. Install gradio Python package. This will allow you to define and instantiate a Web app, that will run locally as a Web service.
 ```
 pip install --upgrade gradio
 ```
-5. Install openai Python package. This is the client SDK that your Web app will use to interact with Azure OpenAI endpoint.
+6. Install openai Python package. This is the client SDK that your Web app will use to interact with Azure OpenAI endpoint.
 ```
 pip install --upgrade openai
 ```
-6. Launch provided Python script for a Web app, integrated with Azure OpenAI endpoint.
+7. Launch provided Python script for a Web app, integrated with Azure OpenAI endpoint.
 ```
 python 1_Whisper_AOAI_endpoint.py
 ```
