@@ -2,13 +2,6 @@
 import gradio as gr
 import whisper
 
-config_list = config_list_from_json(env_or_file="OAI_CONFIG_LIST.json",file_location=".",filter_dict={
-        "model": {
-            "gpt-3.5-turbo",
-            "gpt-4"
-        }
-    })
-
 paramfp16=False # Set to True if you want to use fp16 precision on GPU
 def transcribe(audio):
     model = whisper.load_model("base")

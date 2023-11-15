@@ -1,0 +1,17 @@
+#OPEN AI
+
+OPENAI_ORGANIZATION = "xxxx"
+
+# GPT4 azure Open AI 
+OPENAI_API_BASE = "xxxxx"
+OPENAI_API_KEY = "xxxxx"
+OPENAI_API_VERSION = "2023-09-01-preview"
+OPENAI_API_TYPE = "azure"
+
+#Azure whisper 
+AZURE_WHISPER_API_MODEL = "whisper"
+AZURE_WHISPER_DEPLOYMENT_ID = "xxxx"
+# Azure speech cognitive service
+AZURE_SPEECH_ENDPOINT="xxxxxx"
+AZURE_WHISPER_KEY="xxxxxxxx"
+AZURE_SPEECH_REGION="xxxx"

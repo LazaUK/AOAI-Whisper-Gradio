@@ -1,14 +1,17 @@
 # Jump-start Python templates to demo Whisper in the Gradio-powered Web apps
 Whisper models allow you to transcribe and translate audio files, using their speech-to-text capabilities.
+The languages 
 
 In this repo I'll demo how to utilise Whisper models offline or consume them through an Azure endpoint (either from [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) or [Azure AI Speech](https://learn.microsoft.com/en-GB/azure/ai-services/speech-service/overview) resources).
 
 Each option from the table of contents below is wrapped into a functional Web interface, powered by [Gradio](https://www.gradio.app/) platform.
 
 ## Table of contents:
-- [Option 0 - Access to Whisper models in offline mode](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main#option-0---access-to-whisper-models-in-offline-mode)
-- [Option 1 - Access to Whisper models via Azure OpenAI endpoint](https://github.com/LazaUK/AOAI-Whisper-Gradio/tree/main#option-1---access-to-whisper-models-via-azure-openai-endpoint)
-- [Option 2 - Access to Whisper models via Azure AI Speech endpoint](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main#option-2---access-to-whisper-models-via-azure-ai-speech-endpoint)
+- [Option 0 - Access to Whisper models in offline mode](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-0---access-to-whisper-models-in-offline-mode)
+- [Option 1 - Access to Whisper models via Azure OpenAI endpoint](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-1---access-to-whisper-models-via-azure-openai-endpoint)
+- [Option 2 - Access to Whisper models via Azure AI Speech endpoint](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-2---access-to-whisper-models-via-azure-ai-speech-endpoint)
+- [Option 3 - Access to Whisper Models with Azure Ai speech and postprocess the results](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-3---access-to-whisper-models-via-azure-ai-speech-endpoint)
+
 
 ## Option 0 - Access to Whisper models in offline mode
 Whisper model can be consumed offline. You may notice differences in its performance on the weaker local computers in comparison to an Azure based deployment. At the same time, this may serve certain scenarios where access to external resources is prohibited or not possible.
@@ -38,8 +41,6 @@ Whisper models are now available as a part of Azure OpenAI resource. To consume 
 ![screenshot_1_access](images/demo_app_1_access.png)
 3. Create environment variables and assign to them copied API endpoint and key details from the previous step.
 ![screenshot_1_environ](images/demo_app_1_environ.png)
-4. Set AOAI_DEPLOYMENT_ID variable to the name of your Azure OpenAI Whisper deployment.
-![screenshot_1_variable](images/demo_app_1_variable.png)
 5. Install gradio Python package. This will allow you to define and instantiate a Web app, that will run locally as a Web service.
 ```
 pip install --upgrade gradio
@@ -58,5 +59,4 @@ If successful, you should be able to access new Web app's interface at http://12
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
 Whisper models are also available through Azure AI Speech. Using batch API (similar to what is described [here](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/samples/batch/python/python-client)), can increase audio file size limit up to 1 Gb.
 
-> **Note:** This option is still "Work in Progress". Please, check the latest version of 2_Whisper_AzureAISpeech_endpoint.py file provided for updates.
-![screenshot_1_AISpeech](images/demo_app_2.png)
+## Option 3 - Access to Whisper Models with Azure Ai Speech and postprocessing usecase
