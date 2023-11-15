@@ -1,5 +1,7 @@
 """
-This script provides functionalities for processing audio files, translating audio language, generating text with GPT models, and creating images with DallE 2. It also includes a Gradio interface for testing the Whisper model, processing audio with GPT, and generating images with DallE 2.
+3_Whisper_process_dalle.py
+
+This script provides functionalities for processing audio files, translating audio language, generating text with GPT models, and creating images with DallE 2. It also includes a Gradio interface for user interaction.
 
 Functions:
 - translateAudioLanguage(text2Speech, paramVoice): Translates the provided text into speech in the specified language using Azure Speech SDK.
@@ -19,6 +21,8 @@ Gradio Interface:
 Extra Parameters:
 - temperature: A slider for adjusting the creativity level of the GPT model.
 - gptChosen: A dropdown for selecting the GPT model to use.
+
+Please ensure that the necessary Python packages (Gradio, OpenAI-Whisper, OpenAI-GPT, and DallE-2) are installed and that the Azure endpoint and key details are correctly set as environment variables for the Azure functionalities.
 """
 import gradio as gr, os
 import openai, azure
@@ -108,7 +112,7 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
                 temperature=temperature
             )
 
-    if(choiceImprove === "yes"):
+    if(choiceImprove == "yes"):
         return processGpt(whisperResult,systemPromptAudio,temperature,gptChosen)
     else:
         return whisperResult
