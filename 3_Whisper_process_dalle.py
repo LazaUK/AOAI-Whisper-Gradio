@@ -64,6 +64,7 @@ dalle.api_version = os.getenv('DALLE_OPENAI_API_VERSION')
 
 
 systemPromptAudio = ""
+dalleVersion = "dall-e-2"
 
 def translateAudioLanguage (text2Speech,paramVoice):
 
@@ -88,7 +89,7 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
     else: 
         audioOk = audio1
 
-    client = AzureOpenAI(
+    clientWhisper = AzureOpenAI(
         api_key = azure.whisper_key,
         azure_deployment= azure.whisper_deployment_id,
         azure_endpoint = azure.speech_endpoint,
@@ -97,7 +98,7 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
 
     if choiceParamWhisper == "translate":
         with open(audioOk, "rb") as audio_file:
-            whisperResult = client.audio.translations.create(
+            whisperResult = clientWhisper.audio.translations.create(
                 file=audio_file,
                 model=azure.whisper_model,
                 response_format="text",
@@ -105,7 +106,7 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
             )
     else:
         with open(audioOk, "rb") as audio_file:
-            whisperResult = client.audio.transcriptions.create(
+            whisperResult = clientWhisper.audio.transcriptions.create(
                 file=audio_file,
                 model=azure.whisper_model,
                 response_format="text",
@@ -118,28 +119,37 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
         return whisperResult
 
     
-def countCharacter (input):
-    if len(input) > 1000:
-            return "Input is too long! Maximum length is 100 characters."
-    else:
-        return input
+def countCharacter (input,dalleVersion):
+            if dalleVersion == "dall-e-2":
+                numberCharacter = 1000
+            else:
+                numberCharacter = 4000
 
-def processGpt (inputProcess, systemPrompt,temperature,gptChosen):
+            if len(input) > numberCharacter:
+                    return "Input is too long! Maximum length is "+numberCharacter+" characters."
+            else:
+        
+             return input
 
-    answer = openai.chat.completions.create(
-        model= gptChosen,
-        api_key= openai.api_key,
-        api_base= openai.api_base,
-        api_type= openai.api_type,
-        api_version= openai.api_version,
-        deployment_id= gptChosen, # i made my deployment id identical to  the model for accelerate and decrease the complexity ( so same var but could be different for you between deployment_id and model)
-        messages=[
-            {"role": "system", "content": systemPrompt},
-            {"role": "user", "content": inputProcess},
-        ],
+def processGpt (inputProcess, systemPrompt, temperature = 0, gptChosen = "gpt-35-turbo"):
+
+    clientGpt = AzureOpenAI(
+            api_key=openai.api_key,
+            api_version=openai.api_version,
+            azure_deployment=gptChosen,  # i made my deployment id identical to  the model for accelerate and decrease the complexity ( so same var but could be different for you between deployment_id and model)
+            azure_endpoint=openai.api_base
+    )
+
+    answer = clientGpt.chat.completions.create(
         temperature=temperature,
+        model=gptChosen,
+        messages=[
+                {"role": "system", "content": systemPrompt},
+                {"role": "user", "content": inputProcess},
+            ]
         )
-    return answer['choices'][0]['message']['content']
+ 
+    return answer.choices[0].message.content
 
 def promptInsert (selectProcess):
 
@@ -158,17 +168,20 @@ def promptInsert (selectProcess):
 
 def promptImageDef (promptImage,dalleVersion,dalleSize,dalleQuality,dalleStyle):
 
-    imageGen = openai.images.generate(
+    clientOpenai = openai.OpenAI(
+        api_key= dalle.api_key,
+        organization= dalle.api_orga
+    )
+
+    imageGen = clientOpenai.images.generate(
         prompt=promptImage,
         size=dalleSize,
-        user= dalle.api_orga,
         n=1,
         model=dalleVersion,
         style=dalleStyle,
         quality=dalleQuality,
-        api_key= dalle.api_key
     )
-    return imageGen['data'][0]['url']
+    return imageGen.data[0].url
 # Gradio interface
 with gr.Blocks() as demo:
 
@@ -206,14 +219,14 @@ with gr.Blocks() as demo:
     with gr.Tab(label="Process Audio text by GPT"):
         with gr.Row():
             with gr.Column():
-                text2ProcessGpt = gr.TextArea(placeholder="copy/paste the text to process ",label="process with gpt",show_label=True, interactive=True)
+
+                text2ProcessGpt = gr.TextArea(placeholder="copy/paste the text for processing",label="Process with gpt",show_label=True, interactive=True)
+
                 selectProcess = gr.Dropdown(
-                ["Explain", "Explain with Json", "Explain with Json and image"], label="Process", info="You can choose the type of process or prompting the text from Tab audio with whisper", value="1", type="index", interactive=True)
+                ["Explain", "Explain with Json format output", "Explain with Json output and image prompt"], label="Process", info="You can choose the type of process or prompting the text from Tab audio with whisper", value="Explain", type="index", interactive=True)
                 promptPlace= gr.TextArea(placeholder="Here is the prompt",label="Prompt for process request", show_label=True,interactive=True)
                 
                 buttonSpeech = gr.Button('Process the audio speech',variant="primary")
-                buttonTextgiven = gr.Button('Process the text ',variant="secondary")
-                #buttonCopyPaste = gr.Button('Copy/Paste from audio tab',variant="secondary"),
                 gr.ClearButton([promptPlace,text2ProcessGpt],value="Clear Prompt",show_label=False)
             with gr.Column():
                 text = gr.TextArea(autoscroll=False, placeholder="Result with your prompting/ask",label="Results from post processing",show_copy_button=True)
@@ -223,21 +236,21 @@ with gr.Blocks() as demo:
             with gr.Column():
                 promptImage= gr.Textbox(lines=20, placeholder="Your prompt for creating image",label="Prompt to DallE")
                 promptImage.input(countCharacter,promptImage,promptImage)
-                buttonProcessImage = gr.Button('Generate image from prompt')
+                buttonProcessImage = gr.Button('Generate image from prompt',variant="primary")
             with gr.Column():
-                imageGen = gr.Image(label="image for DallE")
+                imageGen = gr.Image(label="image generate by DallE")
         
     with gr.Accordion("Extra params for GPT & DAllE ",open=False):
         temperature= gr.Slider(minimum=0,maximum=1, step=0.1, value=0 ,label="0 deterministic, near or 1 random result")
-        gptChosen = gr.Dropdown(["GPT4", "GTP4-32k", "GPT3.5 TURBO","GPT3.5 Turbo 16K"],["gpt-4","gpt-4-32k","gpt-35-turbo","gpt-35-turbo-16k"],label="GPT model",value="GPT3.5 TURBO",type="value")
-        dalleVersion = gr.Dropdown(["DallE 2", "DallE 3"], ["dall-e-2", "dall-e-3"], label="DallE version", value="DallE 2", type="value")
+        gptChosen = gr.Dropdown(["gpt-4","gpt-4-32k","gpt-35-turbo","gpt-35-turbo-16k"],["GPT4", "GTP4-32k", "GPT3.5TURBO","GPT3.5Turbo16K"],label="GPT model",value="gpt-35-turbo",type="value")
+        dalleVersion = gr.Dropdown( ["dall-e-2", "dall-e-3"],["DallE 2", "DallE 3"], label="DallE version", value="dall-e-2", type="value")
         dalleSize = gr.Dropdown(["256x256","512x512","1024x1024","1792x1024","1024x1792"],label="DallE size image output",value="512x512",type="value")
         dalleStyle = gr.Dropdown(["natural","vivid"], label="DallE style", value="natural", type="value")
         dalleQuality = gr.Dropdown(["standard","hd"],label="DallE quality",value="standard",type="value")
         
-        buttonSpeech.click(processGpt, inputs=[textResultAudio,promptPlace,temperature,gptChosen], outputs=text)
-        buttonTextgiven.click(processGpt, inputs=[text2ProcessGpt,promptPlace,temperature,gptChosen], outputs=text)
-        
+
+        buttonSpeech.click(processGpt, inputs=[text2ProcessGpt,promptPlace,temperature,gptChosen], outputs=text)
+
         buttonProcessImage.click(promptImageDef,inputs=[promptImage,dalleVersion,dalleSize,dalleQuality,dalleStyle],outputs=imageGen)
 
         selectProcess.change(promptInsert, selectProcess, promptPlace)
