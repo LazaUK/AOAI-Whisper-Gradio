@@ -45,6 +45,18 @@ azure.whisper_key = os.getenv('AZURE_WHISPER_KEY')
 azure.speech_region = os.getenv('AZURE_SPEECH_REGION')
 azure.speech_endpoint = os.getenv('AZURE_SPEECH_ENDPOINT')
 
+#Settings for DallE Tab
+
+class Dalle:
+    def __init__(self):
+        self.api_key = None
+        self.api_orga = None
+        self.api_version = None
+dalle = Dalle()
+
+dalle.api_key = os.getenv('DALLE_OPENAI_API_KEY')
+dalle.api_orga = os.getenv('DALLE_OPENAI_ORGANIZATION')
+dalle.api_version = os.getenv('DALLE_OPENAI_API_VERSION')
 
 
 systemPromptAudio = ""
@@ -96,7 +108,7 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
                 temperature=temperature
             )
 
-    if(choiceImprove == "yes"):
+    if(choiceImprove === "yes"):
         return processGpt(whisperResult,systemPromptAudio,temperature,gptChosen)
     else:
         return whisperResult
@@ -110,7 +122,7 @@ def countCharacter (input):
 
 def processGpt (inputProcess, systemPrompt,temperature,gptChosen):
 
-    answer = openai.ChatCompletion.create(
+    answer = openai.chat.completions.create(
         model= gptChosen,
         api_key= openai.api_key,
         api_base= openai.api_base,
@@ -140,24 +152,24 @@ def promptInsert (selectProcess):
 
     return systemPrompt
 
-def promptImageDef (promptImage):
+def promptImageDef (promptImage,dalleVersion,dalleSize,dalleQuality,dalleStyle):
 
-    imageGen = openai.Image.create(
+    imageGen = openai.images.generate(
         prompt=promptImage,
-        size='512x512',
+        size=dalleSize,
+        user= dalle.api_orga,
         n=1,
-        api_type="openai",
-        api_version="2020-11-07",
-        api_base="https://api.openai.com/v1",
-        api_key= "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",
-        organization="org-s2vfZ66mFlueBZk17Rl7dhRU"
+        model=dalleVersion,
+        style=dalleStyle,
+        quality=dalleQuality,
+        api_key= dalle.api_key
     )
     return imageGen['data'][0]['url']
 # Gradio interface
 with gr.Blocks() as demo:
 
     with gr.Tab(label="Text2speech with whisper"):
-        textResultAudio = gr.TextArea(lines=20, placeholder="you will find the result after submit",label="Results from audio",show_copy_button=True)
+        textResultAudio = gr.TextArea(lines=20, placeholder="result will be here after submit",label="Results from audio",show_copy_button=True)
         gr.Interface(
             processAudio, 
             [
@@ -171,22 +183,22 @@ with gr.Blocks() as demo:
             title="Demo App Whisper model( AOAI ) / Prompt engineering / DallE generation",
             description="Record your speech via microphone or upload an audio file and press the Submit button to transcribe it into text. Please, note that the size of the audio file should be less than 25 MB.",
             allow_flagging="never",
-            article="Interface for testing whisper model /  Process for prompt engineering  /  DallE2 image generation"
+            article="Interface to whisper model /  Process outputs  /  DallE image generate"
         )
         
-"""     with gr.Tab(label="Speech SDK on Azure"):
-        with gr.Row():
-            with gr.Column():
-                text2speechText= gr.TextArea(placeholder="Here is the text to speech",label="Synthetiser speech",show_label=True,interactive=True)
-                gr.Interface(
-                    translateAudioLanguage,
-                    [
-                        text2speechText,
-                        gr.Dropdown(["en-US", "fr-FR", "de-DE", "it-IT", "es-ES", "th-TH-PremwadeeNeural"],interactive=True, label="Language", info="You can choose the language of the audio file", value="en-US", type="value")
-                    ],
-                "audio",
-                allow_flagging="never",
-                ) """
+    # with gr.Tab(label="Speech SDK on Azure"):
+    #     with gr.Row():
+    #         with gr.Column():
+    #             text2speechText= gr.TextArea(placeholder="Here is the text to speech",label="Synthetiser speech",show_label=True,interactive=True)
+    #             gr.Interface(
+    #                 translateAudioLanguage,
+    #                 [
+    #                     text2speechText,
+    #                     gr.Dropdown(["en-US", "fr-FR", "de-DE", "it-IT", "es-ES", "th-TH-PremwadeeNeural"],interactive=True, label="Language", info="You can choose the language of the audio file", value="en-US", type="value")
+    #                 ],
+    #             "audio",
+    #             allow_flagging="never",
+    #             ) 
     with gr.Tab(label="Process Audio text by GPT"):
         with gr.Row():
             with gr.Column():
@@ -202,23 +214,27 @@ with gr.Blocks() as demo:
             with gr.Column():
                 text = gr.TextArea(autoscroll=False, placeholder="Result with your prompting/ask",label="Results from post processing",show_copy_button=True)
                 
-    with gr.Tab(label="Create Image with DallE 2"):
+    with gr.Tab(label="Create Image with DallE 2 or 3"):
         with gr.Row():
             with gr.Column():
-                promptImage= gr.Textbox(lines=20, placeholder="Your prompt for creating image",label="Prompt for DallE")
+                promptImage= gr.Textbox(lines=20, placeholder="Your prompt for creating image",label="Prompt to DallE")
                 promptImage.input(countCharacter,promptImage,promptImage)
                 buttonProcessImage = gr.Button('Generate image from prompt')
             with gr.Column():
-                imageGen = gr.Image(label="image for post processing")
+                imageGen = gr.Image(label="image for DallE")
         
-    with gr.Accordion("Extra params for GPT custom",open=False):
+    with gr.Accordion("Extra params for GPT & DAllE ",open=False):
         temperature= gr.Slider(minimum=0,maximum=1, step=0.1, value=0 ,label="0 deterministic, near or 1 random result")
         gptChosen = gr.Dropdown(["GPT4", "GTP4-32k", "GPT3.5 TURBO","GPT3.5 Turbo 16K"],["gpt-4","gpt-4-32k","gpt-35-turbo","gpt-35-turbo-16k"],label="GPT model",value="GPT3.5 TURBO",type="value")
+        dalleVersion = gr.Dropdown(["DallE 2", "DallE 3"], ["dall-e-2", "dall-e-3"], label="DallE version", value="DallE 2", type="value")
+        dalleSize = gr.Dropdown(["256x256","512x512","1024x1024","1792x1024","1024x1792"],label="DallE size image output",value="512x512",type="value")
+        dalleStyle = gr.Dropdown(["natural","vivid"], label="DallE style", value="natural", type="value")
+        dalleQuality = gr.Dropdown(["standard","hd"],label="DallE quality",value="standard",type="value")
         
         buttonSpeech.click(processGpt, inputs=[textResultAudio,promptPlace,temperature,gptChosen], outputs=text)
         buttonTextgiven.click(processGpt, inputs=[text2ProcessGpt,promptPlace,temperature,gptChosen], outputs=text)
         
-        buttonProcessImage.click(promptImageDef,promptImage,imageGen)
+        buttonProcessImage.click(promptImageDef,inputs=[promptImage,dalleVersion,dalleSize,dalleQuality,dalleStyle],outputs=imageGen)
 
         selectProcess.change(promptInsert, selectProcess, promptPlace)
 if __name__ == "__main__":
