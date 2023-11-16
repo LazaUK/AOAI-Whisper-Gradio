@@ -1,10 +1,19 @@
 # Demo Whisper / GPT & DallE in the Gradio-powered Web apps
 
 Whisper models allow you to transcribe and translate audio files, using their speech-to-text capabilities.
+If you want to know more about the possibilities for Whisper take a look on this link
 The languages 
 DallE allow you to transform prompt to image
 
 In this repo I'll demo how to utilise Whisper models offline or consume them through an Azure endpoint (either from [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) or [Azure AI Speech](https://learn.microsoft.com/en-GB/azure/ai-services/speech-service/overview) resources).
+
+There [are several difference and usecase ( real time, batch..) when when you have to use the Azure AI speech and AOAI Whisper](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/whisper-overview)
+
+
+openai/whisper: Robust Speech Recognition via Large-Scale Weak Supervision (github.com)
+Prise en charge des langues – Service Speech - Azure AI services | Microsoft Learn
+https://speech.microsoft.com/portal/
+The Whisper model from OpenAI - Azure AI services | Microsoft Learn
 
 
 Each option from the table of contents below is wrapped into a functional Web interface, powered by [Gradio](https://www.gradio.app/) platform.
@@ -48,17 +57,16 @@ Whisper models are now available as a part of Azure OpenAI resource. To consume 
 ![screenshot_1_deploy](images/demo_app_1_deploy.png)
 2. Copy API endpoint and key details.
 ![screenshot_1_access](images/demo_app_1_access.png)
-3. Create environment variables and assign to them copied API endpoint and key details from the previous step.
-![screenshot_1_environ](images/demo_app_1_environ.png)
-5. Install gradio Python package. This will allow you to define and instantiate a Web app, that will run locally as a Web service.
+
+3. Install gradio Python package. This will allow you to define and instantiate a Web app, that will run locally as a Web service.
 ```
 pip install --upgrade gradio
 ```
-6. Install openai Python package. This is the client SDK that your Web app will use to interact with Azure OpenAI endpoint.
+4. Install openai Python package. This is the client SDK that your Web app will use to interact with Azure OpenAI endpoint or Open Ai model if you need it
 ```
 pip install --upgrade openai
 ```
-7. Launch provided Python script for a Web app, integrated with Azure OpenAI endpoint.
+5. Launch provided Python script for a Web app, integrated with Azure OpenAI endpoint.
 ```
 python 1_Whisper_AOAI_endpoint.py
 ```
