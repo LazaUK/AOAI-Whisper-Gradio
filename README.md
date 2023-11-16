@@ -1,16 +1,25 @@
-# Jump-start Python templates to demo Whisper in the Gradio-powered Web apps
+# Demo Whisper / GPT & DallE in the Gradio-powered Web apps
+
 Whisper models allow you to transcribe and translate audio files, using their speech-to-text capabilities.
 The languages 
+DallE allow you to transform prompt to image
 
 In this repo I'll demo how to utilise Whisper models offline or consume them through an Azure endpoint (either from [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/overview) or [Azure AI Speech](https://learn.microsoft.com/en-GB/azure/ai-services/speech-service/overview) resources).
 
+
 Each option from the table of contents below is wrapped into a functional Web interface, powered by [Gradio](https://www.gradio.app/) platform.
+
+If you want some deeper informations for Whisper follow theses links
+
+and for DallE:
+- The cookbook openAI [https://cookbook.openai.com/articles/what_is_new_with_dalle_3](https://cookbook.openai.com/articles/what_is_new_with_dalle_3)
+
 
 ## Table of contents:
 - [Option 0 - Access to Whisper models in offline mode](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-0---access-to-whisper-models-in-offline-mode)
 - [Option 1 - Access to Whisper models via Azure OpenAI endpoint](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-1---access-to-whisper-models-via-azure-openai-endpoint)
 - [Option 2 - Access to Whisper models via Azure AI Speech endpoint](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-2---access-to-whisper-models-via-azure-ai-speech-endpoint)
-- [Option 3 - Access to Whisper Models with Azure Ai speech and postprocess the results](https://github.com/olivMertens/AOAI-Whisper-Gradio#option-3---access-to-whisper-models-via-azure-ai-speech-endpoint)
+
 
 
 ## Option 0 - Access to Whisper models in offline mode
@@ -57,6 +66,23 @@ If successful, you should be able to access new Web app's interface at http://12
 ![screenshot_1_AOAI](images/demo_app_1.png)
 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
+
 Whisper models are also available through Azure AI Speech. Using batch API (similar to what is described [here](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/samples/batch/python/python-client)), can increase audio file size limit up to 1 Gb.
 
-## Option 3 - Access to Whisper Models with Azure Ai Speech and postprocessing usecase
+## Option 3 - Improve Whisper model with Post processing and Dalle3 generation
+
+In your terminal in visual studio code or powershell / cmd
+```
+python 3_Whisper_process_dalle.py
+```
+You could open your webbrowser at the localhost adress shown  http://127.0.0.1:7860
+
+In example
+```
+Running on local URL:  http://127.0.0.1:7860
+```
+
+![alt text](./images/demo_app_3.png)
+
+[Documentation on Dalle3](https://cookbook.openai.com/articles/what_is_new_with_dalle_3)
+

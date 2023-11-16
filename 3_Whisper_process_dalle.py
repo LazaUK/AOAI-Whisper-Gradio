@@ -64,7 +64,7 @@ dalle.api_version = os.getenv('DALLE_OPENAI_API_VERSION')
 
 
 systemPromptAudio = ""
-dalleVersion = "dall-e-2"
+
 
 def translateAudioLanguage (text2Speech,paramVoice):
 
@@ -119,7 +119,7 @@ def processAudio(audio1,audio2, choiceParamWhisper, choiceImprove ,systemPromptA
         return whisperResult
 
     
-def countCharacter (input,dalleVersion):
+def countCharacter (input,dalleVersion = "dall-e-2"):
             if dalleVersion == "dall-e-2":
                 numberCharacter = 1000
             else:
