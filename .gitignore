@@ -1,0 +1,4 @@
+# Ignore all .env files
+*.env
+OAI_CONFIG_LIST.json
+.cache/

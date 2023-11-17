@@ -1,13 +1,16 @@
 import gradio as gr
 import os
 import openai
+from dotenv import load_dotenv
 
+load_dotenv("azure.env")
 # Setting Azure OpenAI endpoint parameters
 openai.api_base = os.getenv('OPENAI_API_BASE')
 openai.api_key = os.getenv('OPENAI_API_KEY')     
-openai.api_version = '2023-09-01-preview'
-openai.api_type = 'azure'
-AOAI_DEPLOYMENT_ID = "<YOUR_AOAI_DEPLOYMENT>" # Please, replace <YOUR_AOAI_DEPLOYMENT> with your deployment ID
+openai.api_version = os.getenv('OPENAI_API_VERSION')
+openai.api_type = os.getenv('OPENAI_API_TYPE')
+deployment_id = os.getenv('OPENAI_DEPLOYMENT_ID')
+model = os.getenv('OPENAI_MODEL')
 
 # Transcription function
 def transcribe(audio):
@@ -16,8 +19,7 @@ def transcribe(audio):
             file=audio_file,
             deployment_id=AOAI_DEPLOYMENT_ID, model=AOAI_DEPLOYMENT_ID
         )
-    # print(transcription["text"])
-    return transcription["text"]
+    return transcription
 
 # Gradio interface
 demo = gr.Interface(
