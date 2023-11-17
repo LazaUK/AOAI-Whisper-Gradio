@@ -9,6 +9,7 @@ Each option from the table of contents below is wrapped into a functional Web in
 - [Option 0 - Access to Whisper models in offline mode](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main#option-0---access-to-whisper-models-in-offline-mode)
 - [Option 1 - Access to Whisper models via Azure OpenAI endpoint](https://github.com/LazaUK/AOAI-Whisper-Gradio/tree/main#option-1---access-to-whisper-models-via-azure-openai-endpoint)
 - [Option 2 - Access to Whisper models via Azure AI Speech endpoint](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main#option-2---access-to-whisper-models-via-azure-ai-speech-endpoint)
+- [Option 3 - Improve Whisper output with post-processing and generate DALL-E 3 image](https://github.com/LazaUK/AOAI-Whisper-Gradio/blob/main/README.md#option-3---improve-whisper-output-with-post-processing-and-generate-dall-e-3-image)
 
 ## Option 0 - Access to Whisper models in offline mode
 Whisper model can be consumed offline. You may notice differences in its performance on the weaker local computers in comparison to an Azure based deployment. At the same time, this may serve certain scenarios where access to external resources is prohibited or not possible.
