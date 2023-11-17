@@ -53,7 +53,7 @@ pip install --upgrade openai
 python 1_Whisper_AOAI_endpoint.py
 ```
 If successful, you should be able to access new Web app's interface at http://127.0.0.1:7860/ as shown below. You can now record your speech through the computer's microphone and transcribe it using Whisper model enabled in Azure OpenAI.
-![screenshot_1_AOAI](images/demo_app_1.png)
+![screenshot_1_AOAI](images/demo_app_3.png)
 
 ## Option 2 - Access to Whisper models via Azure AI Speech endpoint
 Whisper models are also available through Azure AI Speech. Using batch API (similar to what is described [here](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/samples/batch/python/python-client)), can increase audio file size limit up to 1 Gb.
